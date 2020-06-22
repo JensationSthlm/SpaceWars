@@ -1,0 +1,81 @@
+from random import randint
+
+list_of_ships =[]
+
+class SpaceShip(object):
+
+	def __init__(self,name, engines, weapons, shields):
+		self.name = name
+		self.engines = engines
+		self.weapons = weapons
+		self.shields = shields
+		self.alive = True
+
+	def set_speed(self, speed):
+		self.speed = speed
+
+	def set_shields(self, shields):
+		self.shields = shields
+
+	def set_weapons(self, weapons):
+		self.weapons = weapons
+
+	def is_alive(self, status):
+		self.alive = status
+
+def create_spacehship(name, engines, weapons, shields):
+	"Creates a spacehip and adds to list of spacehips"
+	ship = SpaceShip(name, engines,weapons,shields)
+	list_of_ships.append(ship)
+
+def manual_create_spaceship():
+		name = input('Name of Spaceship: ')
+		engines = input('Number of engines: ')
+		weapons = input('Number of weapons: ')
+		shields = input('Number of shields: ')
+		create_spacehship(name,engines,weapons,shields)
+
+def create_fleet():
+	"Creates a fleet of 10 random ships."
+	for i in range(1,11):
+		create_spacehship('Ship:'+str(i),randint(1,5),randint(1,5),randint(1,5))
+
+def fight_spaceship(ship1, ship2):
+    points_ship1 = ship1.engines + ship1.weapons + ship1.shields
+    points_ship2 = ship2.engines + ship1.weapons + ship1.shields
+    if points_ship1 > points_ship2:
+    	ship2.is_alive(False)
+    	print(f'{ship1.name} is the winner!') 
+    else:
+    	ship1.is_alive(False)
+    	print(f'{ship2.name} is the winner!')
+
+#Main loop
+
+#skapar en flotta med 10 rymdskepp
+create_fleet()
+
+while True:
+	print(' 1.Create Spaceship\n 2.Print list of ships\n 3.FIGHT!\n 4.Quit')
+	command = input('Choose: ')
+	if command == '1':
+		manual_create_spaceship()
+
+	elif command == '2':
+		print(f'Number of ships in fleat {len(list_of_ships)}')
+		for ship in list_of_ships:			
+			print(ship.name)
+
+	elif command == '4':
+		break
+
+	elif command == '3':
+		print(len(list_of_ships))
+
+		if len(list_of_ships)% 2 == 1:
+			print('Need to create one more spaceship!')
+			manual_create_spaceship()		
+
+		for i in range(0,len(list_of_ships),2):
+			print(f'In fight between {list_of_ships[i].name} and {list_of_ships[i+1].name}')
+			fight_spaceship(list_of_ships[i], list_of_ships[i+1])
